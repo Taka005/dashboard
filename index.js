@@ -26,15 +26,21 @@ app.use((req,res,next)=>{
 
 app.use("/",require("./routes/index"));
 
-app.use((req,res,next)=>{
-  const err = new Error("404 NOT FOUND");
-  err.status = 404;
-  next(err);
+app.use((req,res)=>{
+  res.status(400);
+  res.render("error",{
+    error:{
+      "message": "404 NOT FOUND"
+    }
+  });
 });
 
 app.use((err,req,res)=>{
-  res.status(err.status||500);
+  res.status(500);
   res.render("error",{
-    error: err
+    error:{
+      "message": err.message,
+      "stack": err.stack
+    }
   });
 });
