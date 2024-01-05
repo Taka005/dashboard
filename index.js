@@ -1,4 +1,5 @@
 const express = require("express");
+const favicon = require("serve-favicon");
 const log = require("./lib/log");
 const config = require("./config.json");
 
@@ -6,6 +7,10 @@ const app = express();
 
 app.set("views","./site");
 app.set("view engine","ejs");
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
+app.use(favicon("./public/favicon.ico"));
 
 log.reset();
 
@@ -19,6 +24,17 @@ app.use((req,res,next)=>{
   next();
 });
 
-app.get("/",(req,res)=>{
-  res.render("app");
+app.use("/",require("./routes/index"));
+
+app.use((req,res,next)=>{
+  const err = new Error("404 NOT FOUND");
+  err.status = 404;
+  next(err);
+});
+
+app.use((err,req,res)=>{
+  res.status(err.status||500);
+  res.render("error",{
+    error: err
+  });
 });
