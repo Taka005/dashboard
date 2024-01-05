@@ -7,10 +7,10 @@ const app = express();
 
 app.set("views","./site");
 app.set("view engine","ejs");
+app.use(favicon("./public/favicon.ico"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
-app.use(favicon("./public/favicon.ico"));
 
 log.reset();
 
