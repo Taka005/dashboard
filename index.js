@@ -5,7 +5,6 @@ const config = require("./config.json");
 
 const app = express();
 
-app.set("views","./site");
 app.set("view engine","ejs");
 app.use(favicon("./public/img/favicon.ico"));
 app.use(express.json());
