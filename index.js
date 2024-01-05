@@ -1,6 +1,6 @@
 const express = require("express");
 const favicon = require("serve-favicon");
-const log = require("./lib/log");
+const log = require("./utils/log");
 const config = require("./config.json");
 
 const app = express();
