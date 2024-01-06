@@ -43,6 +43,7 @@ app.use((req,res,next)=>{
 
 app.use("/",require("./routes/index"));
 app.use("/account",require("./routes/account"));
+app.use("/api",require("./routes/api"));
 
 app.use((req,res)=>{
   res.status(400);
