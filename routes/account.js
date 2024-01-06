@@ -6,6 +6,8 @@ router.get("/",(req,res)=>{
 });
 
 router.get("/login",(req,res)=>{
+  if(req.session.authenticated) return res.redirect("account");
+
   res.render("account/login");
 });
 
@@ -14,7 +16,8 @@ router.get("/create",(req,res)=>{
 });
 
 router.get("/logout",(req,res)=>{
-  res.render("account/create");
+  req.session.destroy();
+  res.redirect("account/login");
 });
 
 module.exports = router;
