@@ -6,11 +6,10 @@ const config = require("./config.json");
 const app = express();
 
 app.set("view engine","ejs");
-app.use(favicon("./public/img/favicon.ico"));
+app.use(favicon("./public/assets/img/favicon.ico"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
-app.use(express.static("file"));
 
 log.reset();
 
