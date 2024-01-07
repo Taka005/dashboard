@@ -93,11 +93,8 @@ router.post("/edit",(req,res)=>{
 
   const account = JSON.parse(fs.readFileSync("./database/account.json","utf8"));
 
-  if(!(
-    account.find(ac=>ac.name === req.body.username)&&
-    account.find(ac=>ac.password === hash(req.body.oldPassword))
-  )) return res.render("account/edit",{
-    errorMessage: "ユーザー名、パスワードが違います",
+  if(!account.find(ac=>ac.password === hash(req.body.oldPassword))) return res.render("account/edit",{
+    errorMessage: "パスワードが違います",
     username: req.session.user.name
   });
 
