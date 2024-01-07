@@ -22,7 +22,7 @@ router.post("/login",(req,res)=>{
   if(!(
     req.body.username&&
     req.body.password
-  )) return res.render("account/login",{ message: "不正な操作です" });
+  )) return res.render("account/login",{ message: "不正な操作です" }); 
 
   const account = JSON.parse(fs.readFileSync("./database/account.json","utf8"));
 
