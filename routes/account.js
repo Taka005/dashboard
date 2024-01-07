@@ -14,6 +14,8 @@ router.get("/login",(req,res)=>{
 });
 
 router.get("/create",(req,res)=>{
+  if(req.session.user) return res.redirect("account");
+
   res.render("account/create");
 });
 
