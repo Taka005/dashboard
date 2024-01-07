@@ -5,22 +5,24 @@ const hash = require("../utils/hash");
 const router = express.Router();
 
 router.get("/",(req,res)=>{
-  if(!req.session.user) res.redirect("account/login");
+  if(!req.session.user) res.redirect("login");
 
   res.render("account/index");
 });
 
 router.get("/login",(req,res)=>{
-  if(req.session.user) return res.redirect("account");
+  if(req.session.user) return res.redirect("/");
 
   res.render("account/login",{ message: null });
 });
 
 router.post("/login",(req,res)=>{
-  if(
+  if(req.session.user) return res.redirect("/");
+
+  if(!(
     req.body.username&&
     req.body.password
-  ) return res.render("account/login",{ message: "不正な操作です" });
+  )) return res.render("account/login",{ message: "不正な操作です" });
 
   const account = JSON.parse(fs.readFileSync("./database/account.json","utf8"));
 
@@ -29,27 +31,29 @@ router.post("/login",(req,res)=>{
     account.find(ac=>ac.password === hash(req.body.password))
   )) return res.render("account/login",{ message: "ユーザー名、パスワードが違います" });
 
-  res.session.user = {
+  req.session.user = {
     name: req.body.username,
     password: hash(req.body.password)
   };
 
-  fs.writeFileSync("./database/status.json",JSON.stringify(data),"utf8");
+  fs.writeFileSync("./database/account.json",JSON.stringify(account),"utf8");
 
-  res.redirect("account");
+  res.redirect("/");
 });
 
 router.get("/create",(req,res)=>{
-  if(req.session.user) return res.redirect("account");
+  if(req.session.user) return res.redirect("/");
 
   res.render("account/create",{ message: null });
 });
 
 router.post("/create",(req,res)=>{
-  if(
+  if(req.session.user) return res.redirect("/");
+
+  if(!(
     req.body.username&&
     req.body.password
-  ) return res.render("account/create",{ message: "不正な操作です" });
+  )) return res.render("account/create",{ message: "不正な操作です" });
 
   const account = JSON.parse(fs.readFileSync("./database/account.json","utf8"));
 
@@ -61,18 +65,18 @@ router.post("/create",(req,res)=>{
   };
 
   account.push(data);
-  res.session.user = data;
+  req.session.user = data;
 
-  fs.writeFileSync("./database/status.json",JSON.stringify(account),"utf8");
+  fs.writeFileSync("./database/account.json",JSON.stringify(account),"utf8");
 
-  res.redirect("account");
+  res.redirect("/");
 });
 
 router.get("/logout",(req,res)=>{
-  if(!req.session.user) res.redirect("account/login");
+  if(!req.session.user) res.redirect("login");
 
   req.session.destroy();
-  res.redirect("account/login");
+  res.redirect("login");
 });
 
 module.exports = router;
