@@ -16,7 +16,7 @@
                         <form action="/account/edit" method="post">
                             <div class="mb-3">
                                 <label for="username" class="form-label">ユーザー名</label>
-                                <input type="text" class="form-control" id="username" name="username" value="<%= session.user.name %>" required>
+                                <input type="text" class="form-control" id="username" name="username" value="<%= session.user.name %>" required <%= session.user.name === "admin" ? disabled : "" %>>
                             </div>
                             <div class="mb-3">
                                 <label for="oldPassword" class="form-label">現在のパスワード</label>
