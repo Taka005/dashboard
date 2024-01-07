@@ -5,19 +5,19 @@ const hash = require("../utils/hash");
 const router = express.Router();
 
 router.get("/",(req,res)=>{
-  if(!req.session.user) return res.redirect("login");
+  if(!req.session.user) return res.redirect("/account/login");
 
   res.render("account/index");
 });
 
 router.get("/login",(req,res)=>{
-  if(req.session.user) return res.redirect("/");
+  if(req.session.user) return res.redirect("/account");
 
   res.render("account/login",{ message: null });
 });
 
 router.post("/login",(req,res)=>{
-  if(req.session.user) return res.redirect("/");
+  if(req.session.user) return res.redirect("/account");
 
   if(!(
     req.body.username&&
@@ -38,17 +38,17 @@ router.post("/login",(req,res)=>{
 
   fs.writeFileSync("./database/account.json",JSON.stringify(account),"utf8");
 
-  res.redirect("/");
+  res.redirect("/account");
 });
 
 router.get("/create",(req,res)=>{
-  if(req.session.user) return res.redirect("/");
+  if(req.session.user) return res.redirect("/account");
 
   res.render("account/create",{ message: null });
 });
 
 router.post("/create",(req,res)=>{
-  if(req.session.user) return res.redirect("/");
+  if(req.session.user) return res.redirect("/account");
 
   if(!(
     req.body.username&&
@@ -69,14 +69,15 @@ router.post("/create",(req,res)=>{
 
   fs.writeFileSync("./database/account.json",JSON.stringify(account),"utf8");
 
-  res.redirect("/");
+  res.redirect("/account");
 });
 
 router.get("/logout",(req,res)=>{
-  if(!req.session.user) return res.redirect("login");
+  if(!req.session.user) return res.redirect("/account/login");
 
   req.session.destroy();
-  res.redirect("login");
+
+  res.redirect("/account/login");
 });
 
 module.exports = router;

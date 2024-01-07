@@ -3,7 +3,7 @@ const router = express.Router();
 const fs = require("fs");
 
 router.get("/status",(req,res)=>{
-  if(!req.session.user) res.json({
+  if(!req.session.user) return res.json({
     error: "ログインしていません"
   });
 
@@ -11,7 +11,7 @@ router.get("/status",(req,res)=>{
 });
 
 router.get("/statusLog",(req,res)=>{
-  if(!req.session.user) res.json({
+  if(!req.session.user) return res.json({
     error: "ログインしていません"
   });
 
