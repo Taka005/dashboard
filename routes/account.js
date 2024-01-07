@@ -5,7 +5,7 @@ const hash = require("../utils/hash");
 const router = express.Router();
 
 router.get("/",(req,res)=>{
-  if(!req.session.user) res.redirect("login");
+  if(!req.session.user) return res.redirect("login");
 
   res.render("account/index");
 });
@@ -22,7 +22,7 @@ router.post("/login",(req,res)=>{
   if(!(
     req.body.username&&
     req.body.password
-  )) return res.render("account/login",{ message: "不正な操作です" }); 
+  )) return res.render("account/login",{ message: "不正な操作です" });
 
   const account = JSON.parse(fs.readFileSync("./database/account.json","utf8"));
 
@@ -73,7 +73,7 @@ router.post("/create",(req,res)=>{
 });
 
 router.get("/logout",(req,res)=>{
-  if(!req.session.user) res.redirect("login");
+  if(!req.session.user) return res.redirect("login");
 
   req.session.destroy();
   res.redirect("login");
