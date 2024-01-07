@@ -13,7 +13,7 @@ router.get("/",(req,res)=>{
 router.get("/login",(req,res)=>{
   if(req.session.user) return res.redirect("account");
 
-  res.render("account/login");
+  res.render("account/login",{ message: null });
 });
 
 router.post("/login",(req,res)=>{
@@ -42,7 +42,7 @@ router.post("/login",(req,res)=>{
 router.get("/create",(req,res)=>{
   if(req.session.user) return res.redirect("account");
 
-  res.render("account/create");
+  res.render("account/create",{ message: null });
 });
 
 router.post("/create",(req,res)=>{
