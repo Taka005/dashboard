@@ -102,7 +102,7 @@ router.post("/edit",(req,res)=>{
 
   fs.writeFileSync("./database/account.json",JSON.stringify(account),"utf8");
 
-  res.redirect("/account",{ successMessage: "変更しました" });
+  res.redirect("/account");
 });
 
 router.get("/logout",(req,res)=>{
