@@ -16,15 +16,15 @@
                         <form action="/account/edit" method="post">
                             <div class="mb-3">
                                 <label for="username" class="form-label">ユーザー名</label>
-                                <input type="text" class="form-control" id="username" name="username" value="<%= session.user.name %>" required>
+                                <input type="text" class="form-control" id="username" name="username" minlength="4" value="<%= session.user.name %>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="oldPassword" class="form-label">現在のパスワード</label>
-                                <input type="password" class="form-control" id="oldPassword" name="oldPassword" required>
+                                <input type="password" class="form-control" id="oldPassword" name="oldPassword" minlength="8" required>
                             </div>
                             <div class="mb-3">
                                 <label for="newPassword" class="form-label">新しいパスワード</label>
-                                <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                                <input type="password" class="form-control" id="newPassword" name="newPassword" minlength="8" required>
                             </div>
                             <input type="submit" class="btn btn-primary" value="決定">
                         </form>

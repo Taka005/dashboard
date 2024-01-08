@@ -16,11 +16,11 @@
                         <form action="/account/create" method="post">
                             <div class="mb-3">
                                 <label for="username" class="form-label">ユーザー名</label>
-                                <input type="text" class="form-control" id="username" name="username" required>
+                                <input type="text" class="form-control" id="username" name="username" minlength="4" required>
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">パスワード</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
+                                <input type="password" class="form-control" id="password" name="password" minlength="8" required>
                             </div>
                             <input type="submit" class="btn btn-primary" value="決定">
                         </form>
