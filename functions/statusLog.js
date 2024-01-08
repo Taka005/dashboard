@@ -8,7 +8,7 @@ module.exports = async()=>{
   cron.schedule("0 * * * *",async()=>{
     const data = JSON.parse(fs.readFileSync("./database/status.json","utf8"));
 
-    const cpuUsage = (async()=>{
+    const cpuUsage = await (async()=>{
       const cpus = os.cpus();
       const totalIdle = cpus.reduce((acc,cpu)=>acc + cpu.times.idle,0);
       const totalTick = cpus.reduce((acc,cpu)=>{
@@ -18,7 +18,7 @@ module.exports = async()=>{
 
       const idle = totalIdle / cpus.length;
       const total = totalTick / cpus.length;
-      return (100 - (100 * idle) / total).toFixed(2);
+      return Math.floor(100 - (100*idle) / total);
     })();
 
     const ramUsage = 100 - Math.floor((os.freemem()/os.totalmem())*100);
@@ -32,7 +32,7 @@ module.exports = async()=>{
     }
 
     data.push({
-      time: new Date(),
+      time: new Date().toLocaleString(),
       cpu: cpuUsage,
       memory: ramUsage
     });
