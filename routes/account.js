@@ -88,6 +88,11 @@ router.post("/edit",(req,res)=>{
     req.body.newPassword
   )) return res.render("account/edit",{ errorMessage: "不正な操作です" });
 
+  if(
+    account.isAdmin(req.session.user.name)&&
+    req.session.user.name !== req.body.username
+  ) return res.render("account/edit",{ errorMessage: "管理者は名前の変更ができません" });
+
   account.load();
 
   if(!account.checkPassword(req.body.oldPassword)) return res.render("account/edit",{ errorMessage: "パスワードが違います" });

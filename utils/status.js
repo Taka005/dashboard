@@ -11,7 +11,7 @@ module.exports = ()=>{
   const total = totalTick / cpus.length;
   const cpu = (100 - (100*idle) / total).toFixed(1);
 
-  const memory = 100 - ((os.freemem()/os.totalmem())*100).toFixed(1);
+  const memory = (100 - ((os.freemem()/os.totalmem())*100)).toFixed(1);
 
   return { cpu, memory };
 }

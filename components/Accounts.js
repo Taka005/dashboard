@@ -39,6 +39,14 @@ class Account{
 
     return user;
   }
+
+  isAdmin(name){
+    return name === "admin";
+  }
+
+  filter(str,length){
+    return str.length >= length
+  }
 }
 
 module.exports = Account;
