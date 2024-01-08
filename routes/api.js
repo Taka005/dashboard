@@ -1,13 +1,15 @@
 const express = require("express");
-const router = express.Router();
 const fs = require("fs");
+const status = require("../utils/status");
+
+const router = express.Router();
 
 router.get("/status",(req,res)=>{
   if(!req.session.user) return res.json({
     error: "ログインしていません"
   });
 
-  res.json();
+  res.json(status());
 });
 
 router.get("/statusLog",(req,res)=>{
