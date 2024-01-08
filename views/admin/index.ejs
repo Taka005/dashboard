@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
     <head>
-        <%- include("./layout/head",{ title: "トップ" }); %>
+        <%- include("./layout/head",{ title: "管理者" }); %>
     </head>
     <body>
         <header>
@@ -9,7 +9,7 @@
         </header>
         <main>
             <div class="container">
-
+                <%- include("../components/errorAlert",{ message: errorMessage }); %>
             </div>
         </main>
         <footer>

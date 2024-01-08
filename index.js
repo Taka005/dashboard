@@ -44,6 +44,7 @@ app.use((req,res,next)=>{
 
 app.use("/",require("./routes/index"));
 app.use("/account",require("./routes/account"));
+app.use("/admin",require("./routes/admin"));
 app.use("/api",require("./routes/api"));
 
 app.use((req,res)=>{
