@@ -1,27 +1,14 @@
 module.exports = async()=>{
   const cron = require("node-cron");
-  const os = require("os");
   require("dotenv").config();
   const fs = require("fs");
   const log = require("../utils/log");
+  const status = require("../utils/status");
 
-  cron.schedule("0 * * * *",async()=>{
+  cron.schedule("0 * * * *",()=>{
     const data = JSON.parse(fs.readFileSync("./database/status.json","utf8"));
 
-    const cpuUsage = await (async()=>{
-      const cpus = os.cpus();
-      const totalIdle = cpus.reduce((acc,cpu)=>acc + cpu.times.idle,0);
-      const totalTick = cpus.reduce((acc,cpu)=>{
-        Object.values(cpu.times).forEach(time=>acc += time);
-        return acc;
-      },0);
-
-      const idle = totalIdle / cpus.length;
-      const total = totalTick / cpus.length;
-      return Math.floor(100 - (100*idle) / total);
-    })();
-
-    const ramUsage = 100 - Math.floor((os.freemem()/os.totalmem())*100);
+    const { cpu, memory } = status();
 
     let logCount = data.length;
     while(logCount >= 168){
@@ -33,8 +20,8 @@ module.exports = async()=>{
 
     data.push({
       time: new Date().toLocaleString(),
-      cpu: cpuUsage,
-      memory: ramUsage
+      cpu: cpu,
+      memory: memory
     });
 
     fs.writeFileSync("./database/status.json",JSON.stringify(data),"utf8");
