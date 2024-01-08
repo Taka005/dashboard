@@ -25,6 +25,8 @@ class Account{
 
   add(user){
     this.data.push(user);
+
+    return user;
   }
 
   remove(name){
@@ -34,6 +36,8 @@ class Account{
   edit(name,user){
     const index = this.data.map(ac=>ac.name).indexOf(name);
     this.data[index] = user;
+
+    return user;
   }
 }
 

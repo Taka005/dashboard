@@ -1,5 +1,4 @@
 const express = require("express");
-const fs = require("fs");
 const hash = require("../utils/hash");
 const Account = require("../components/Accounts");
 
@@ -62,12 +61,12 @@ router.post("/create",(req,res)=>{
 
   if(account.checkName(req.body.username)) return res.render("account/create",{ errorMessage: "このユーザー名は登録できません" });
 
-  req.session.user = {
+   const data = account.add({
     name: req.body.username,
     password: hash(req.body.password)
-  };
+  });
 
-  account.add(req.session.user);
+  req.session.user = data;
 
   account.save();
 
@@ -93,12 +92,10 @@ router.post("/edit",(req,res)=>{
 
   if(!account.checkPassword(req.body.oldPassword)) return res.render("account/edit",{ errorMessage: "パスワードが違います" });
 
-  const data = {
+  const data = account.edit(req.session.user.name,{
     name: req.body.username,
     password: hash(req.body.newPassword)
-  };
-
-  account.edit(req.session.user.name,data);
+  });
 
   req.session.user = data;
 
