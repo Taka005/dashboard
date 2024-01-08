@@ -6,6 +6,8 @@ const log = require("./utils/log");
 const config = require("./config.json");
 require("dotenv").config();
 
+require("./functions/statusLog")();
+
 const app = express();
 
 app.set("view engine","ejs");

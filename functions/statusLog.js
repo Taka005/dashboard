@@ -4,12 +4,23 @@ module.exports = async()=>{
   require("dotenv").config();
   const fs = require("fs");
   const log = require("../utils/log");
-  const cpu = require("../utils/cpu");
 
   cron.schedule("0 * * * *",async()=>{
     const data = JSON.parse(fs.readFileSync("./database/status.json","utf8"));
 
-    const cpuUsage = await cpu();
+    const cpuUsage = (async()=>{
+      const cpus = os.cpus();
+      const totalIdle = cpus.reduce((acc,cpu)=>acc + cpu.times.idle,0);
+      const totalTick = cpus.reduce((acc,cpu)=>{
+        Object.values(cpu.times).forEach(time=>acc += time);
+        return acc;
+      },0);
+
+      const idle = totalIdle / cpus.length;
+      const total = totalTick / cpus.length;
+      return (100 - (100 * idle) / total).toFixed(2);
+    })();
+
     const ramUsage = 100 - Math.floor((os.freemem()/os.totalmem())*100);
 
     let logCount = data.length;
