@@ -10,14 +10,15 @@
         <main>
             <div class="container">
                 <%- include("../components/errorAlert",{ message: errorMessage }); %>
-                <%- include("../components/successAlert",{ message: successMessage }); %>
                 <div class="card" style="width: 30rem;">
                     <div class="card-body">
                         <h5 class="card-title">アカウント</h5>
-                        <h6 class="card-subtitle">ユーザー名: <%= session.user.name %></h6>
-                        <%- session.user.name === "admin" ? "<p class='card-text text-muted'>管理者としてログインしています</p>" : "" %>
-                        <a href="/account/edit" class="btn btn-success">編集</a>
-                        <a href="/account/logout" class="btn btn-danger">ログアウト</a>
+                        <div class="text-center">
+                            <h6 class="card-subtitle">ユーザー名: <%= session.user.name %></h6>
+                            <%- session.user.name === "admin" ? "<p class='card-text text-muted'>管理者としてログインしています</p>" : "" %>
+                            <a href="/account/edit" class="btn btn-success">編集</a>
+                            <a href="/account/logout" class="btn btn-danger">ログアウト</a>
+                        </div>
                     </div>
                 </div>
             </div>
