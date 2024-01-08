@@ -1,6 +1,9 @@
 const express = require("express");
 const fs = require("fs");
 const hash = require("../utils/hash");
+const Account = require("../components/Accounts");
+
+const account = new Account();
 
 const router = express.Router();
 
@@ -24,11 +27,11 @@ router.post("/login",(req,res)=>{
     req.body.password
   )) return res.render("account/login",{ errorMessage: "不正な操作です" });
 
-  const account = JSON.parse(fs.readFileSync("./database/account.json","utf8"));
+  account.load();
 
   if(!(
-    account.find(ac=>ac.name === req.body.username)&&
-    account.find(ac=>ac.password === hash(req.body.password))
+    account.checkName(req.body.username)&&
+    account.checkPassword(req.body.password)
   )) return res.render("account/login",{ errorMessage: "ユーザー名、パスワードが違います" });
 
   req.session.user = {
@@ -36,7 +39,7 @@ router.post("/login",(req,res)=>{
     password: hash(req.body.password)
   };
 
-  fs.writeFileSync("./database/account.json",JSON.stringify(account),"utf8");
+  account.save();
 
   res.redirect("/account");
 });
@@ -55,18 +58,18 @@ router.post("/create",(req,res)=>{
     req.body.password
   )) return res.render("account/create",{ errorMessage: "不正な操作です" });
 
-  const account = JSON.parse(fs.readFileSync("./database/account.json","utf8"));
+  account.load();
 
-  if(account.find(ac=>ac.name === req.body.username)) return res.render("account/create",{ errorMessage: "このユーザー名は登録できません" });
+  if(account.checkName(req.body.username)) return res.render("account/create",{ errorMessage: "このユーザー名は登録できません" });
 
   req.session.user = {
     name: req.body.username,
     password: hash(req.body.password)
   };
 
-  account.push(req.session.user);
+  account.add(req.session.user);
 
-  fs.writeFileSync("./database/account.json",JSON.stringify(account),"utf8");
+  account.save();
 
   res.redirect("/account");
 });
@@ -86,16 +89,20 @@ router.post("/edit",(req,res)=>{
     req.body.newPassword
   )) return res.render("account/edit",{ errorMessage: "不正な操作です" });
 
-  const account = JSON.parse(fs.readFileSync("./database/account.json","utf8"));
+  account.load();
 
-  if(!account.find(ac=>ac.password === hash(req.body.oldPassword))) return res.render("account/edit",{ errorMessage: "パスワードが違います" });
+  if(!account.checkPassword(req.body.oldPassword)) return res.render("account/edit",{ errorMessage: "パスワードが違います" });
 
-  req.session.user = {
+  const data = {
     name: req.body.username,
     password: hash(req.body.newPassword)
   };
 
-  fs.writeFileSync("./database/account.json",JSON.stringify(account),"utf8");
+  account.edit(req.session.user.name,data);
+
+  req.session.user = data;
+
+  account.save();
 
   res.redirect("/account");
 });
