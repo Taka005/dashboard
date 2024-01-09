@@ -9,28 +9,28 @@
         </header>
         <main>
             <div class="container">
-                <div class="row">
-                    <div class="card">
-                        <h5 class="card-header">ユーザー管理</h5>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
+                <%- include("../components/errorAlert",{ message: errorMessage }); %>
+                <%- include("../components/successAlert",{ message: successMessage }); %>
+                <div class="card">
+                    <h5 class="card-header">ユーザー管理</h5>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">名前</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% users.forEach(user=>{ %>
                                         <tr>
-                                            <th scope="col">名前</th>
-                                            <th scope="col"></th>
+                                            <th scope="row"><%= user %></th>
+                                            <td><a href="#" class="btn btn-sm btn-danger">削除</a></td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% users.forEach(user=>{ %>
-                                            <tr>
-                                                <th scope="row"><%= user %></th>
-                                                <td><a href="#" class="btn btn-sm btn-danger">削除</a></td>
-                                            </tr>
-                                        <% }); %>
-                                    </tbody>
-                                </table>
-                            </div>
+                                    <% }); %>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
