@@ -57,6 +57,11 @@ router.post("/create",(req,res)=>{
     req.body.password
   )) return res.render("account/create",{ errorMessage: "不正な操作です" });
 
+  if(
+    req.body.username.length < 4||
+    req.body.password.length < 8
+  ) return res.render("account/create",{ errorMessage: "不正な操作です" });
+
   account.load();
 
   if(account.checkName(req.body.username)) return res.render("account/create",{ errorMessage: "このユーザー名は登録できません" });
@@ -87,6 +92,11 @@ router.post("/edit",(req,res)=>{
     req.body.oldPassword&&
     req.body.newPassword
   )) return res.render("account/edit",{ errorMessage: "不正な操作です" });
+
+  if(
+    req.body.username.length < 4||
+    req.body.newPassword.length < 8
+  ) return res.render("account/edit",{ errorMessage: "不正な操作です" });
 
   if(
     account.isAdmin(req.session.user.name)&&
