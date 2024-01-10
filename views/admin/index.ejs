@@ -16,6 +16,18 @@
                         <a href="/admin/user" class="btn btn-success">管理</a>
                     </div>
                 </div>
+                <div class="card">
+                    <h5 class="card-header">作成コード</h5>
+                    <div class="card-body text-center">
+                        <% if(config.createAuth){ %>
+                            <h5 class="card-title"><%= config.createKey %></h5>
+                            <p class="card-text text-muted">このコードを利用してアカウントを作成できます</p>
+                        <% }else{ %>
+                            <h5 class="card-title">有効化されていません</h5>
+                            <p class="card-text text-muted">設定ファイルから有効化できます</p>
+                        <% } %>
+                    </div>
+                </div>
             </div>
         </main>
         <footer>

@@ -1,5 +1,6 @@
 const express = require("express");
 const hash = require("../utils/hash");
+const config = require("../config.json");
 const Account = require("../components/Accounts");
 
 const account = new Account();
@@ -61,6 +62,12 @@ router.post("/create",(req,res)=>{
     req.body.username.length < 4||
     req.body.password.length < 8
   ) return res.render("account/create",{ errorMessage: "不正な操作です" });
+
+  if(config.createAuth){
+    if(!req.body.code) return res.render("account/create",{ errorMessage: "不正な操作です" });
+
+    if(req.body.code !== config.createKey) return res.render("account/create",{ errorMessage: "作成コードが正しくありません" });
+  }
 
   account.load();
 

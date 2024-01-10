@@ -38,6 +38,7 @@ app.use((req,res,next)=>{
   log.info(`${req.ip} - [${req.method}] ${req.originalUrl}`);
 
   res.locals.session = req.session;
+  res.locals.config = config;
   res.locals.errorMessage = null;
   res.locals.successMessage = null;
 

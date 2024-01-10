@@ -45,7 +45,7 @@ router.post("/user",(req,res)=>{
 
   account.save();
 
-  res.render("admin/user",{ 
+  res.render("admin/user",{
     successMessage: `${req.body.name}を削除しました`,
     users: account.data
   });
