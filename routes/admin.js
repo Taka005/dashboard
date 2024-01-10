@@ -1,5 +1,4 @@
 const express = require("express");
-const fs = require("fs");
 const Account = require("../components/Accounts");
 
 const account = new Account();
